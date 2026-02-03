@@ -1,0 +1,50 @@
+.container {
+  min-height: 100vh;
+  /* 에디터와 동일한 종이 질감 경로 */
+  background-image: url("/images/background/paper_texture.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #f4f1ea;
+}
+
+.contentSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* 헤더 높이 제외 */
+  padding: 40px 20px;
+}
+
+.paperOverlay {
+  max-width: 900px;
+  width: 100%;
+  padding: 60px 40px;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.4
+  ); /* 종이 질감이 살짝 비치게 더 투명하게 */
+  border-radius: 2px;
+  text-align: center;
+  /* 구겨진 종이 위에 덧댄 느낌을 주려면 얇은 테두리 추가 */
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.title {
+  font-family: serif; /* 명조체 느낌으로 감성 추가 */
+  font-size: 32px;
+  color: #222;
+  margin-bottom: 50px;
+  word-break: keep-all; /* 단어 단위 줄바꿈으로 깔끔하게 */
+}
+
+.descriptionTop,
+.descriptionBottom {
+  font-family: serif;
+  font-size: 18px;
+  line-height: 2.2;
+  color: #444;
+  margin-bottom: 40px;
+  word-break: keep-all;
+}
