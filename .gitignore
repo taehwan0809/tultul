@@ -1,0 +1,10 @@
+# Dependency directories
+frontend/node_modules/
+
+# Next.js build output
+frontend/.next/
+frontend/out/
+
+
+# Production build
+frontend/build/
