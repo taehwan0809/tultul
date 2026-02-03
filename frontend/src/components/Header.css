@@ -1,0 +1,44 @@
+/* 1. 네비게이션 바 전체 (화면 끝에서 끝까지) */
+.nav-bar {
+  width: 100%;
+  height: 80px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: center; /* 내부 컨텐츠를 중앙으로 */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* 2. 네비게이션 내부 컨텐츠 (여기서 너비를 조절) */
+.nav-content {
+  width: 100%; /* 꽉 채우려면 100% */
+  max-width: 1440px; /* 너무 퍼지는 게 싫다면 최대 너비 설정 */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 로고 - 메뉴 - 프로필 사이 간격 */
+  padding: 0 40px; /* 양옆 여백 살짝 */
+  box-sizing: border-box;
+}
+
+/* 3. 메뉴 링크들 정렬 */
+.menu-links {
+  display: flex;
+  gap: 40px; /* 메뉴 사이 간격 */
+  align-items: center;
+}
+.logo {
+  height: 60px;
+}
+
+.nav-item {
+  font-size: 15px;
+  font-weight: 500px;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: none;
+}

@@ -1,0 +1,127 @@
+/* 부모 컨테이너: 화면 전체 중앙 정렬 */
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* 로그인 카드: 피그마의 흰색 박스 크기 고정 */
+.box .group {
+  position: relative;
+  width: 500px; /* 피그마 박스 가로 */
+  height: 590px; /* 피그마 박스 세로 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 로그인 폼 전체 */
+.box .signup-form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 털털이 로고: 상단 중앙 */
+.box .element {
+  width: 230px; /* 크기 적당히 조절 */
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* 입력창들 공통 스타일 */
+.box .div,
+.box .rectangle-2 {
+  width: 75%;
+  height: 55px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+  padding: 0 15px;
+  font-size: 16px;
+}
+
+/* 비밀번호 텍스트 */
+.box .text-wrapper-3 {
+  align-self: flex-start;
+  margin-left: 7.5%;
+  font-size: 14px;
+  color: #4e4e4e;
+  margin-bottom: 5px;
+}
+
+/* 회원가입하기 링크 */
+.box .signup-link-container {
+  align-self: flex-end;
+  margin-right: 12%;
+  margin-bottom: 20px;
+}
+
+.text-wrapper-5 {
+  text-decoration: none;
+  color: #4e4e4e;
+}
+
+/* 구분선 섹션 */
+.box .divider-container {
+  width: 70%;
+  text-align: center;
+  border-bottom: 1px solid #e6e6e6;
+  line-height: 0.1em;
+  margin: 20px 0;
+}
+.box .divider-container span {
+  background: #fff;
+  padding: 0 10px;
+  color: #4e4e4e;
+  font-size: 14px;
+}
+
+/* 소셜 로그인 버튼 */
+.box .social-login {
+  margin-bottom: 30px;
+}
+
+/* 로그인 버튼 하단 배치 */
+.box .group-2 {
+  position: relative;
+  width: 81%;
+  height: 60px;
+  cursor: pointer;
+
+  /* 이미지 대신 색상과 스타일 적용 */
+  background-color: #91e1ff; /* 원하시는 하늘색 */
+  border: none;
+  border-radius: 10px; /* 피그마 디자인에 맞춘 둥근 모서리 */
+
+  /* 텍스트 스타일 */
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+
+  /* 중앙 정렬 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 클릭 시 반응 (피드백) */
+  transition: background-color 0.2s;
+}
+
+.box .group-2:hover {
+  background-color: #79d0f0; /* 마우스 올렸을 때 살짝 어두워지는 효과 */
+}
+
+.box .group-2:active {
+  background-color: #64badb; /* 클릭했을 때 효과 */
+}
