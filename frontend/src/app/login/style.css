@@ -53,7 +53,7 @@
 .box .div,
 .box .rectangle-2 {
   width: 75%;
-  height: 55px;
+  height: 90px;
   margin-bottom: 20px;
   border-radius: 10px;
   border: 1px solid #e6e6e6;
@@ -106,7 +106,7 @@
 .box .group-2 {
   position: relative;
   width: 80%;
-  height: 60px;
+  height: 90px;
   cursor: pointer;
 
   /* 이미지 대신 색상과 스타일 적용 */

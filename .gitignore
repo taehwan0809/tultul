@@ -1,10 +1,8 @@
-# Dependency directories
-frontend/node_modules/
+**/node_modules/
+**/.env
 
-# Next.js build output
+
 frontend/.next/
 frontend/out/
-
-
-# Production build
 frontend/build/
+
