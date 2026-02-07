@@ -1,11 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react"; // useEffect 추가
 import Header from "../../components/Header";
+import axios from "axios"; // axios 추가
 import styles from "./garden.module.css";
 
 export default function GardenPage() {
   const [postCount, setPostCount] = useState(0);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+
+  useEffect(() => {
+    const fetchPostCount = async () => {
+      try {
+        // 백엔드에 내 게시글 개수 요청
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/my/count`, {
+          withCredentials: true, // 세션/쿠키 전달 필수
+        });
+        setPostCount(res.data.count);
+      } catch (error) {
+        console.error("게시글 개수 불러오기 실패:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPostCount();
+  }, []);
 
   const getGrowthStage = (count: number) => {
     if (count >= 9) return 4;
@@ -16,7 +35,6 @@ export default function GardenPage() {
 
   const stage = getGrowthStage(postCount);
 
-  // 단계별 데이터에 그라데이션(bg) 추가
   const growthData = {
     1: { 
       name: "씨앗", 
@@ -46,34 +64,29 @@ export default function GardenPage() {
 
   const current = growthData[stage as keyof typeof growthData];
 
+  if (loading) return <div className={styles.loading}>정원 불러오는 중... 🌱</div>;
+
   return (
-    // 인라인 스타일로 배경을 실시간 변경
     <main className={styles.component} style={{ background: current.bg, transition: "background 1s ease" }}>
       <Header />
-      
-      {/* 숲 배경 이미지는 그라데이션 위에 겹쳐서 투명도 유지 */}
       <img className={styles.forestBg} src="/images/garden/land.png" alt="숲 배경" />
 
       <section className={styles.content}>
         <h1 className={styles.title}>{current.name}</h1>
-        {/* </br> 태그를 실제 줄바꿈으로 변환 */}
         <h2 className={styles.subtitle}>
-            {current.content.split('</br>').map((line, i) => (
-            <span key={i}>
-                {line}
-                <br />
-            </span>
-            ))}
+          {current.content.split('</br>').map((line, i) => (
+            <span key={i}>{line}<br /></span>
+          ))}
         </h2>
-        <p className={styles.p}>게시한 게시글 수: {postCount}개</p>
+        <p className={styles.p}>현재 나의 기록: {postCount}개</p>
         
         <div className={styles.treeWrapper}>
           <img className={styles.treeImage} src={current.img} alt={current.name} />
         </div>
 
-        {/* 테스트용 버튼 */}
-        <button className={styles.testButton} onClick={() => setPostCount(postCount + 1)}>
-          기록 추가하기
+        {/* 💡 실무용으로는 테스트 버튼 대신 '기록하러 가기' 버튼을 넣으면 좋겠죠? */}
+        <button className={styles.testButton} onClick={() => window.location.href='/community/write'}>
+          새로운 기록 남기기
         </button>
       </section>
     </main>

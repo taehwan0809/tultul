@@ -2,16 +2,78 @@
 
 import { useState } from "react";
 import Header from "../../components/Header";
-import Editor from "../../components/Editor"; // 분리한 컴포넌트 불러오기
+import Editor from "../../components/Editor";
+import axios from "axios";
+import { useRouter} from "next/navigation";
+
 
 export default function PostPage() {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const handleSubmit = () => {
-    console.log({ title, content });
-    alert("종이에 기록을 남겼습니다!");
+  // 1. 썸네일 상태 관리 (제네릭 추가로 File 타입 허용)
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [preview, setPreview] = useState("");
+
+  // 2. 이벤트 객체 e에 타입 명시
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; // ?. 사용으로 null 방지
+    if (file) {
+      setThumbnail(file);
+      setPreview(URL.createObjectURL(file));
+    }
   };
+
+const handleSubmit = async () => {
+  
+  // 1. 유효성 검사 (간단하게)
+  if (!title || !content || !thumbnail) {
+    return alert("빈칸없이 모두 채워주세요!");
+  }
+
+  // 2. FormData 바구니 만들기 (파일 전송을 위해 필수!)
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("content", content); // HTML 태그 문자열이 그대로 담깁니다.
+  formData.append("thumbnail", thumbnail); // 실제 파일 객체 추가
+
+  
+
+  try {
+    // 3. 백엔드로 전송
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BACK_URL}/post`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // 파일 전송 시 필수 헤더
+      },
+      withCredentials: true, // 구글 로그인 세션/쿠키를 같이 보내려면 필수
+    });
+    const data = response.data;
+
+    if (response.status === 201) {
+      alert("기록을 성공적으로 남겼습니다!");
+      // 성공 후 글 목록 페이지로 이동 등의 로직
+      router.push('/community');
+      
+    }else{
+      alert(data)
+    }
+  } catch (error) {
+  if (axios.isAxiosError(error)) {
+    if (error.response?.status === 401) {
+      alert("로그인 세션이 만료되었습니다. 다시 로그인해 주세요.");
+      // router.push("/login");
+    } else {
+      // 백엔드에서 보낸 message가 있다면 그걸 띄우고, 없으면 기본 메시지
+      alert(error.response?.data?.message || "서버에 기록을 남기지 못했습니다.");
+    }
+  } else {
+    // Axios 에러가 아닌 일반 에러 처리
+    console.error("기록 실패:", error);
+    alert("알 수 없는 오류가 발생했습니다.");
+  }
+  }
+};
 
   return (
     <div style={{
@@ -36,6 +98,39 @@ export default function PostPage() {
         <h1 style={{ fontFamily: "serif", textAlign: "center", marginBottom: "40px", color: "#2c2c2c" }}>
           오늘의 사건
         </h1>
+
+        {/* 썸네일 업로드 섹션 추가 */}
+        <div style={{ marginBottom: "30px", textAlign: "center" }}>
+          <div 
+            onClick={() => document.getElementById('thumbInput')?.click()}
+            style={{
+              width: "100%",
+              height: "250px",
+              border: "2px dashed #ccc",
+              borderRadius: "10px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              overflow: "hidden",
+              backgroundColor: "#f9f9f9",
+              marginBottom: "20px"
+            }}
+          >
+            {preview ? (
+              <img src={preview} alt="Preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            ) : (
+              <span style={{ color: "#888" }}>+ 클릭하여 썸네일을 선택하세요</span>
+            )}
+          </div>
+          <input 
+            id="thumbInput"
+            type="file" 
+            accept="image/*" 
+            onChange={handleThumbnailChange} 
+            style={{ display: "none" }} 
+          />
+        </div>
         
         <input
           type="text"
@@ -55,7 +150,6 @@ export default function PostPage() {
           }}
         />
 
-        {/* 분리된 에디터 사용 */}
         <Editor value={content} onChange={setContent} />
 
         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "40px", gap: "15px" }}>

@@ -4,6 +4,7 @@ const controller = require('../Controller/userController');
 const {signupSchema} = require('../middlewares/validation');
 const verifyToken = require('../middlewares/auth');
 
+
 const validateSignup = (req,res,next)=>{
     const {error} = signupSchema.validate(req.body);
     if(error){
@@ -16,6 +17,9 @@ const validateSignup = (req,res,next)=>{
 
 router.post('/signup', validateSignup, controller.signup);
 router.post('/login', controller.login);
+router.get('/auth/check', verifyToken, (req,res)=>{
+    res.json({user:req.user})
+})
 
 
 module.exports = router;

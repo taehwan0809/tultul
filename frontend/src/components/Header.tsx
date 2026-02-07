@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <header className="nav-bar">
       <div className="nav-content">
-        <Link href="/">
+        <Link href="/community">
           <img className="logo" src="/images/logo/logo.png" alt="털털이 로고" />
         </Link>
         <div className="menu-links">

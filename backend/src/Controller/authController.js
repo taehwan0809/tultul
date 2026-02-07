@@ -4,7 +4,6 @@ const authController = {
     googleLogin: async(req,res,next)=>{
         const {code} = req.query;
         try{
-            console.log(code)
             const token = await authService.processGoogleLogin(code);
 
 

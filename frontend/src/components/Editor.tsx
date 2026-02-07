@@ -20,7 +20,7 @@ export default function Editor({ value, onChange }: EditorProps) {
       [{ 'header': [1, 2, 3, false] }],
       ['bold', 'italic', 'underline', 'strike'],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      ['link', 'image'],
+      ['link'],
       ['clean']
     ],
   };

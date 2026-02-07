@@ -1,9 +1,7 @@
 .community-container {
   width: 100%;
   min-height: 100vh;
-  position: fixed;
-  background-color: #f8f9fa; /* 기본 배경 */
-  overflow-y: auto;
+  overflow-y: auto; /* 내용이 많아지면 자동으로 스크롤 생성 */
 }
 
 /* 배경 노이즈 이미지 꽉 채우기 */
@@ -37,7 +35,7 @@
 
 /* 커뮤니티 리스트 영역 */
 .content-section {
-  max-width: 1200px;
+  max-width: 2200px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -66,9 +64,9 @@
 /* 카드 그리드 레이아웃 */
 .post-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
-  padding-bottom: 100px; /* 하단 여백 */
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+  gap: 40px;
+  padding-bottom: 100px;
 }
 
 .post-card {
@@ -86,17 +84,17 @@
 
 .post-thumbnail {
   width: 100%;
-  height: 200px;
+  height: 280px;
 }
-
 .post-info {
   padding: 20px;
   text-align: center;
 }
 
 .post-title {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
   color: #333;
 }
 .post-date {

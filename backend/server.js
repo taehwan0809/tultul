@@ -3,8 +3,10 @@ const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT;
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const userRouter = require('./src/Router/userRoute');
 const authRouter = require('./src/Router/authRoute');
+const postRouter = require('./src/Router/postRoute');
 
 app.use(cors({
     origin: `${process.env.FRONT_URL}`,
@@ -12,9 +14,11 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
+app.use(cookieParser());
+app.use('/uploads', express.static('uploads'))
 app.use('/', userRouter);
 app.use('/auth', authRouter);
+app.use('/', postRouter);
 
 app.use((err,req,res,next)=>{
     console.error(err.stack);
