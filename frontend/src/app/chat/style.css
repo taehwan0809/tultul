@@ -68,11 +68,12 @@
 }
 
 /* 말풍선 공통 */
+/* 말풍선 배치 수정 */
 .message-bubble {
   display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  max-width: 70%;
+  align-items: flex-start; /* 사진이랑 텍스트 윗줄 맞춤 */
+  gap: 12px;
+  max-width: 80%; /* 채팅창 넓게 쓰기 */
 }
 .message-bubble.me {
   align-self: flex-end;
@@ -100,15 +101,20 @@
   border-bottom-left-radius: 2px;
 }
 
-.profile-circle {
-  width: 40px;
-  height: 40px;
-  background-color: #ccc;
-  border-radius: 50%;
+.ai-content {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* 캐릭터 사진: 크기 고정 및 비율 유지 핵심 */
+.profile-image {
+  width: 50px; /* 사진 크기 고정 */
+  height: 50px; /* 사진 크기 고정 */
+  border-radius: 50%; /* 동그랗게 */
+  object-fit: cover; /* 사진이 찌그러지지 않게 꽉 채움 */
+  flex-shrink: 0; /* 말풍선 길어져도 사진 안 찌부되게 방어 */
+  border: 1px solid #eee; /* 가벼운 테두리로 깔끔하게 */
 }
 
 /* 하단 입력창 */
@@ -138,4 +144,29 @@
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
+}
+
+.char-name {
+  font-size: 13px;
+  font-weight: bold;
+  color: #666;
+  margin-left: 2px;
+}
+
+.message-bubble.me {
+  align-self: flex-end;
+  flex-direction: row-reverse; /* 사진을 오른쪽으로 */
+}
+
+.me .text {
+  background-color: #91e1ff;
+  color: #fff;
+  border-radius: 15px 2px 15px 15px; /* 말풍선 꼬리 방향 */
+}
+
+.ai .text {
+  background-color: #f1f1f1;
+  color: #333;
+  border-radius: 2px 15px 15px 15px; /* 말풍선 꼬리 방향 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* 살짝 입체감 */
 }

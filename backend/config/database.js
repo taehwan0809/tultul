@@ -7,7 +7,8 @@ const pool = mysql.createPool({
     password: process.env.DB_PASS,
     database: 'tultul',
     waitForConnections: true,
-    connectionLimit: 10
+    connectionLimit: 10,
+    charset: 'utf8mb4'
 });
 
 module.exports = pool;
