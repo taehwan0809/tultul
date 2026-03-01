@@ -1,8 +1,8 @@
-const  groq = require("../../config/groq");
+const groq = require("../../config/groq");
 const pool = require('../../config/database');
 
 const aiService = {
-askAI: async (userId, userMessage, charId) => {
+    askAI: async (userId, userMessage, charId) => {
         const personas = {
             "chun-sam": "73세 김춘삼 할아버지. 다정한 말투. 단어마다 마침표.",
             "byeong-cheol": "52세 아재 김병철. 열정 과다. 아재개그. 이모지 활용",
@@ -29,10 +29,8 @@ askAI: async (userId, userMessage, charId) => {
                 });
             });
 
-            // 현재 메시지 추가
             messages.push({ role: "user", content: userMessage });
 
-            // 3. Groq API 호출
             const response = await groq.chat.completions.create({
                 model: "llama-3.3-70b-versatile",
                 messages: messages,
@@ -41,7 +39,6 @@ askAI: async (userId, userMessage, charId) => {
 
             const aiReply = response.choices[0].message.content;
 
-            // 4. DB 저장
             const sql = "INSERT INTO chat_logs (user_id, character_id, role, message) VALUES (?, ?, 'user', ?), (?, ?, 'model', ?)";
             await pool.query(sql, [userId, charId, userMessage, userId, charId, aiReply]);
 
@@ -52,9 +49,9 @@ askAI: async (userId, userMessage, charId) => {
             throw new Error("AI 응답 생성 실패");
         }
     },
-    getHistoryByChar: async(userId, charId)=>{
+    getHistoryByChar: async (userId, charId) => {
         const sql = 'select role, message from chat_logs where user_id = ? and character_id = ? order by created_at asc';
-        const [rows] = await pool.query(sql, [userId,charId]);
+        const [rows] = await pool.query(sql, [userId, charId]);
         return rows;
     }
 }
