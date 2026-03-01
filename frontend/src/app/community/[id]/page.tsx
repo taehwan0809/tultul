@@ -4,6 +4,7 @@ import { useEffect, useState, use } from "react"; // 1. use 추가
 import axios from "axios";
 import Header from "../../../components/Header";
 import "../style.css"; 
+import { useRouter } from "next/navigation";
 
 interface PostDetail {
   id: number;
@@ -22,6 +23,9 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
 
   const [post, setPost] = useState<PostDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<{ name: string } | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -29,6 +33,10 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
         // 4. 이제 안전하게 id를 사용합니다.
         const res = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/community/${id}`);
         setPost(res.data);
+        const userRes = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/auth/check`, {
+        withCredentials: true,
+        });
+        if (userRes.data.user) setUser({ name: userRes.data.user.nickname });
       } catch (error) {
         console.error("상세 데이터 로딩 실패:", error);
       } finally {
@@ -41,6 +49,18 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
   if (loading) return <div className="loading">정원에서 이야기를 가져오는 중... 🌱</div>;
   if (!post) return <div className="error">존재하지 않는 이야기입니다.</div>;
 
+  const deleteData = async ()=>{
+    try{
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACK_URL}/delete/${id}`);
+      console.log('삭제 성공', response.data)
+      alert('삭제 성공')
+      router.push(`/community`)
+      
+    }catch(e){
+      console.error(e)
+    }
+  }
+
   return (
     <main className="community-container">
       <Header />
@@ -51,16 +71,21 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
           <div style={{ color: '#888', display: 'flex', gap: '15px' }}>
             <span>By. {post.author}</span>
             <span>{post.created_at?.slice(0, 10)}</span>
+            {
+              post.author === user?.name ? <button onClick={deleteData}>삭제</button> : null
+            }
+            
           </div>
         </header>
 
         {post.thumbnail && (
           <img 
-            src={`${process.env.NEXT_PUBLIC_BACK_URL}${post.thumbnail}`} 
+            src={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/${post.thumbnail}`} 
             style={{ width: '100%', borderRadius: '15px', marginBottom: '30px', objectFit: 'cover' }} 
             alt="대표 이미지" 
           />
         )}
+        
 
         <div 
           className="detail-content" 

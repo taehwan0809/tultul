@@ -1,29 +1,58 @@
 const pool = require('../../config/database');
+const { deleteS3Object } = require('../middlewares/upload');
 
 
 
 const postService = {
-    createPost: async(title,content, thumbnail, userId)=>{
+    createPost: async (title, content, thumbnail, userId) => {
         const sql = 'insert into posts (title,content,thumbnail,user_id) values (?,?,?,?)';
-        const [result] = await pool.query(sql, [title,content,thumbnail,userId]);
+        const [result] = await pool.query(sql, [title, content, thumbnail, userId]);
 
         return result.insertId;
     },
-    getAllPosts: async()=>{
+    getAllPosts: async () => {
         const sql = 'select posts.id, posts.title,posts.thumbnail,posts.created_at, users.nickname AS author from posts join users on posts.user_id = users.id order by posts.created_at desc'
         const [result] = await pool.query(sql);
         return result;
     },
-    getPostById: async(id)=>{
+    getPostById: async (id) => {
         const sql = 'select posts.*, users.nickname as author from posts join users on posts.user_id = users.id where posts.id = ?';
         const [rows] = await pool.query(sql, [id]);
 
         return rows[0];
     },
-    getMyPostCount: async(userId)=>{
+    getMyPostCount: async (userId) => {
         const sql = 'select count(*) as count from posts where user_id = ?';
         const [rows] = await pool.query(sql, [userId]);
         return rows[0].count;
+    },
+    deletePost: async (id) => {
+        const conn = await pool.getConnection();
+        try {
+            await conn.beginTransaction();
+
+            const [rows] = await conn.query("select thumbnail from posts where id =?", [id])
+            if (rows.length === 0) {
+                const err = new Error('게시글 없음')
+                err.status = 404;
+                throw err
+            }
+            const key = rows[0].thumbnail;
+
+            if (key) await deleteS3Object(key);
+            const sql = 'delete from posts where posts.id = ?'
+            const [result] = await conn.query(sql, [id])
+
+            await conn.commit();
+            return result.affectedRows;
+        } catch (e) {
+            await conn.rollback();
+            console.error(e);
+            throw e
+        } finally {
+            conn.release();
+        }
+
     }
 }
 

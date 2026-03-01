@@ -84,8 +84,7 @@ export default function GardenPage() {
           <img className={styles.treeImage} src={current.img} alt={current.name} />
         </div>
 
-        {/* 💡 실무용으로는 테스트 버튼 대신 '기록하러 가기' 버튼을 넣으면 좋겠죠? */}
-        <button className={styles.testButton} onClick={() => window.location.href='/community/write'}>
+        <button className={styles.testButton} onClick={() => window.location.href='/post'}>
           새로운 기록 남기기
         </button>
       </section>

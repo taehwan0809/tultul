@@ -20,12 +20,12 @@ export default function CommunityPage() {
   const [posts, setPosts] = useState<Post[]>([]); 
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
+  useEffect(() => {
   const fetchData = async () => {
     // 1. 사용자 체크 (실패해도 무관하게)
     try {
       const userRes = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/auth/check`, {
-        withCredentials: true,
+        withCredentials: true
       });
       if (userRes.data.user) setUser({ name: userRes.data.user.nickname });
     } catch (e) {
@@ -80,8 +80,8 @@ export default function CommunityPage() {
           {posts.length > 0 ? (
             posts.map((post) => {
               // 이미지 경로 처리: /가 중복되지 않도록 처리
-              const thumbPath = post.thumbnail?.startsWith('/') ? post.thumbnail : `/${post.thumbnail}`;
-              const fullImageUrl = `${process.env.NEXT_PUBLIC_BACK_URL}${thumbPath}`;
+              
+              const fullImageUrl = `${process.env.NEXT_PUBLIC_S3_BASE_URL}/${post.thumbnail}`;
 
               return (
               <Link href={`/community/${post.id}`} key={post.id} style={{ textDecoration: 'none' }}>

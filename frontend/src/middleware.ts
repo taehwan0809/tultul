@@ -18,8 +18,6 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// 4. 이 미들웨어를 적용할 경로 설정
 export const config = {
-  // 글쓰기 페이지(/post), 마이페이지(/mypage) 등 로그인이 필요한 경로만 지정
   matcher: ['/post/:path*','/select/:path*','/chat/:path*','/garden/:path*'],
 };
