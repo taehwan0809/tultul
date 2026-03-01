@@ -31,9 +31,9 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
     const fetchPost = async () => {
       try {
         // 4. 이제 안전하게 id를 사용합니다.
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/community/${id}`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/api/community/${id}`);
         setPost(res.data);
-        const userRes = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/auth/check`, {
+        const userRes = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/user/auth/check`, {
         withCredentials: true,
         });
         if (userRes.data.user) setUser({ name: userRes.data.user.nickname });
@@ -51,7 +51,7 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
 
   const deleteData = async ()=>{
     try{
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACK_URL}/delete/${id}`);
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACK_URL}/api/delete/${id}`);
       console.log('삭제 성공', response.data)
       alert('삭제 성공')
       router.push(`/community`)

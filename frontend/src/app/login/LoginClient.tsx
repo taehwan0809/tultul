@@ -30,7 +30,7 @@ export default function LoginPage() {
 
     try {
       // fetch 사용 시 credentials: "include"를 넣어야 백엔드가 보내는 쿠키를 저장할 수 있습니다.
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACK_URL}/login`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACK_URL}/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

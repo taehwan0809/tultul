@@ -24,7 +24,7 @@ export default function CommunityPage() {
   const fetchData = async () => {
     // 1. 사용자 체크 (실패해도 무관하게)
     try {
-      const userRes = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/auth/check`, {
+      const userRes = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/user/auth/check`, {
         withCredentials: true
       });
       if (userRes.data.user) setUser({ name: userRes.data.user.nickname });
@@ -35,7 +35,7 @@ export default function CommunityPage() {
 
     // 2. 게시글 목록 가져오기 (이건 꼭 성공해야 함)
     try {
-      const postRes = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/community`);
+      const postRes = await axios.get(`${process.env.NEXT_PUBLIC_BACK_URL}/api/community`);
       setPosts(postRes.data);
     } catch (error) {
       console.error("게시글 로딩 실패:", error);

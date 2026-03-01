@@ -42,7 +42,7 @@ const handleSubmit = async () => {
 
   try {
     // 3. 백엔드로 전송
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_BACK_URL}/post`, formData, {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BACK_URL}/api/post`, formData, {
       headers: {
         "Content-Type": "multipart/form-data", // 파일 전송 시 필수 헤더
       },

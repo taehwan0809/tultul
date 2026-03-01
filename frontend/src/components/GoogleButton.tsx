@@ -2,7 +2,7 @@
 
 export default function GoogleButton() {
   const handleGoogleLogin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_BACK_URL}/auth/google`;
+    window.location.href = `${process.env.NEXT_PUBLIC_BACK_URL}/user/auth/google`;
   };
 
   return (

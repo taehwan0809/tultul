@@ -1,6 +1,6 @@
 const express = require('express');
 const http = require("http");
-const {Server} = require('socket.io');
+const { Server } = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 require('dotenv').config();
@@ -21,8 +21,8 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-const io = new Server(server,{
-    cors: {origin: process.env.FRONT_URL, credentials: true},
+const io = new Server(server, {
+    cors: { origin: process.env.FRONT_URL, credentials: true },
     transports: ['websocket', 'polling']
 });
 
@@ -32,12 +32,12 @@ setupChatHandler(io);
 
 
 app.use('/uploads', express.static('uploads'))
-app.use('/', userRouter);
+app.use('/user', userRouter);
 app.use('/auth', authRouter);
-app.use('/', postRouter);
+app.use('/api', postRouter);
 app.use('/', aiRouter);
 
-app.use((err,req,res,next)=>{
+app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({
         message: err.message,
@@ -46,6 +46,6 @@ app.use((err,req,res,next)=>{
 });
 
 
-server.listen(PORT, ()=>{
+server.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`)
 })

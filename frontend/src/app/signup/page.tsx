@@ -17,7 +17,7 @@ export default function SignupPage() {
     const userData = { email, nickname, password };
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACK_URL}/signup`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACK_URL}/user/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
