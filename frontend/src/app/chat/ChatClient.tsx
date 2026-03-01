@@ -11,7 +11,7 @@ interface Message {
   sender: "me" | "ai";
 }
 
-const socket: Socket = io(process.env.NEXT_PUBLIC_BACK_URL as string, {
+const socket: Socket = io(window.location.origin, {
   withCredentials: true,
   autoConnect: false,
 });
